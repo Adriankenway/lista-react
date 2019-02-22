@@ -1,54 +1,97 @@
 import React, { Component } from 'react';
+import './App.css';
 
-import "./app.css";
+import TelaCadastro from './telaCadastro/telaCadastro'
+import { BrowserRouter as Router, Route, Link} from "react-router-dom";
+import Inicio from './inicio/inicio';
+import firebase from 'firebase';
+import AreaUsuario from './areaUsuario/areaUsuario';
+import Configuration from './configuration/Configuration'
 
-class App extends Component{
+function MenuInicial(props){
+  if(firebase.auth().currentUser){
+    return(
+      <nav className="navbar navbar-expand-md navbar-expand-lg navbar-light bg-light">
+            <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+              <span className="navbar-toggler-icon"></span>
+            </button>
+            <div className="collapse navbar-collapse" id="navbarNav">
+              <ul className="navbar-nav">
+                <li className="nav-item active">
+                  <Link className="nav-link" to="/inicio/">Inicio</Link>
+                </li>
+                <li className="nav-item">
+                  <Link className="nav-link" to="/config/">Configurações</Link>
+                </li>
+                <li onClick={() => firebase.auth().signOut()} className="nav-item">
+                  <Link className="nav-link" to="/inicio/">Sair</Link>
+                </li>
+            </ul>
+          </div>
+      </nav>
+    )
+  }else{
+    return(
+      <nav className="navbar navbar-expand-md navbar-expand-lg navbar-light bg-light">
+            <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+              <span className="navbar-toggler-icon"></span>
+            </button>
+            <div className="collapse navbar-collapse" id="navbarNav">
+              <ul className="navbar-nav">
+                <li className="nav-item active">
+                  <Link className="nav-link" to="/inicio/">Inicio</Link>
+                </li>
+                <li className="nav-item">
+                  <Link className="nav-link" to="/cadastro/">Cadastrar</Link>
+                </li>
+            </ul>
+          </div>
+      </nav>
+    )
+  }
+}
+
+export default class App extends Component {
+
+    constructor(props){
+      super(props);
+      this.state = {
+        userLogged: false
+      }
+    }
+
+    componentDidMount() {
+      firebase.auth().onAuthStateChanged((user) => {
+        if (user) {
+          this.setState({userLogged:true})
+        } else {
+          this.setState({userLogged:false})
+        }
+      });
+     }
+
   render(){
     return(
       <div className="container-fluid">
-        <InfoUser/>
+        <Router>
+          <div>
+            <MenuInicial/>
+            <Route path="/inicio/"  render={() => (
+              this.state.userLogged ? (
+                <AreaUsuario/>
+              ) : (
+                <Inicio/>
+              )
+            )}/>
+            <Route path="/cadastro/" component={TelaCadastro}/>
+            <Route path="/userArea" component={this.state.userLogged === true ? AreaUsuario:TelaCadastro}/>
+            <Route path="/config/" component={Configuration}/>
+          </div>
+        </Router>
       </div>
     );
   }
 }
 
-function InfoUser(props){
-  return(
-    <div className="container">
-      <img src=""/>
-      <h1>{"Adriano"}</h1>
-      <p>Idade:{"16"}</p>
-      <UserLoginConfig/>
-    </div>
-  );
-}
 
-class UserLoginConfig extends Component{
 
-  constructor(props){
-    super(props);
-    this.state = {
-      email:"",
-      senha:""
-    }
-  }
-
-  render(){
-    return(
-      <div>
-        <form>
-          <div className="form-control">
-            <label>E-mail</label>
-            <input value={this.state.email}/>
-          </div>
-          <div className="form-control">
-            <label>Senha</label>
-            <input value={this.state.senha}/>
-          </div>
-        </form>
-      </div>
-    )
-  }
-} 
-
-export default App;

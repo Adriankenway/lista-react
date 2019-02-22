@@ -1,0 +1,39 @@
+.inicio-body{
+  background-color: white;
+  width: 30%;
+  height: 80%;
+  margin-top: 15%;
+  padding: 2%;
+  border-radius: 2%;
+}
+
+
+nav{
+  border-radius: 5%;
+}
+
+i{
+  font-size: 35px;
+  margin: 5px;
+  box-shadow: 1px 1px 3px black;
+  padding: 1%;
+  border-radius: 10%;
+}
+
+.container-form{
+  position: relative;
+  margin-top:2%;
+}
+
+.form{
+  background-color: white;
+  border-radius: 5%;
+  padding: 3%;
+}
+
+
+body{
+  background-image: url("https://proxy.duckduckgo.com/iu/?u=http%3A%2F%2Fwww.osmais.com%2Fwallpapers%2F201304%2Fmontanha-neve-wallpaper.jpg&f=1");
+  background-repeat: no-repeat;
+  
+}

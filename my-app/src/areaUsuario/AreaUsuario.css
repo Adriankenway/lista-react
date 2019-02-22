@@ -1,0 +1,23 @@
+.areausuario-body{
+	background-color: white;
+	padding: 1%;
+	width: 50%;
+	text-align: center;
+	border-radius: 2%;
+	margin-top:5%;
+}
+
+input{
+	position: relative;
+	left:-3%;
+}
+
+select{
+	position: relative;
+	left:-3%;
+}
+
+.item{
+	position: relative;
+	left:-3%;
+}
